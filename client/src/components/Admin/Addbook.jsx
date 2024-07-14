@@ -1,6 +1,11 @@
+import { Helmet } from "react-helmet";
+
 const AddBook = () => {
     return (
         <div className="container mx-auto p-8">
+            <Helmet>
+                <title>Add Book - Library Management</title>
+            </Helmet>
             <h1 className="text-3xl font-bold mb-6 text-center">Add Book</h1>
             <form className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-8">
                 <div className="mb-4">
@@ -41,7 +46,7 @@ const AddBook = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="image">
-                        Image
+                        Image <span className="text-red-500">*</span>
                     </label>
                     <input
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -75,8 +80,20 @@ const AddBook = () => {
                     />
                 </div>
                 <div className="mb-6">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="prize">
+                        Prize <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="prize"
+                        type="text"
+                        placeholder="Prize"
+                        required
+                    />
+                </div>
+                <div className="mb-6">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="publisher">
-                        Publisher
+                        Publisher <span className="text-red-500">*</span>
                     </label>
                     <input
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

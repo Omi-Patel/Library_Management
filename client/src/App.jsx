@@ -16,6 +16,7 @@ function App() {
         <Route path="/" element={<BookGrid />} />
         <Route path='/register' element={<SignUp />} />
         <Route path='/login' element={<Signin />} />
+        <Route path='/admin/add-book' element={<AddBook />} />
         </Routes>
       </BrowserRouter>
     </>
