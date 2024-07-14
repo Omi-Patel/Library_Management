@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [login, setLogin] = useState(false);
@@ -27,6 +28,7 @@ const Navbar = () => {
 
     toast.info("User Loggedout Successfully..!");
     navigate("/");
+    location.reload();
   };
 
   useEffect(() => {

@@ -48,7 +48,7 @@ const AddBook = () => {
 
     //receiving response
     const createdBook = await blob.json();
-    console.log(createdBook);
+    // console.log(createdBook);
 
     // condition
     if (createdBook.error) {
