@@ -11,7 +11,7 @@ import BookGrid from "./components/Bookgrid";
 import AddBook from "./components/Admin/Addbook";
 import Profile from "./components/Profile";
 import Dashboard from "./components/Admin/Dashboard";
-import PaymentSuccess from './components/PaymentSuccess'
+import PaymentSuccess from "./components/PaymentSuccess";
 
 function App() {
   return (
@@ -20,13 +20,55 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<BookGrid />} />
-          <Route path="/register" element={<SignUp />} />
-          <Route path="/login" element={<Signin />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-          <Route path="/paymentsuccess" element={<PaymentSuccess />} />
+          <Route
+            path="/register"
+            element={
+              <ProtectedRoute>
+                <SignUp />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <ProtectedRouteForAuth>
+                <Signin />
+              </ProtectedRouteForAuth>
+            }
+          />
+          <Route
+            path="/profile/:userId"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/paymentsuccess"
+            element={
+              <ProtectedRoute>
+                <PaymentSuccess />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/admin/add-book" element={<AddBook />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route
+            path="/admin/add-book"
+            element={
+              <ProtectedRouteForAdmin>
+                <AddBook />
+              </ProtectedRouteForAdmin>
+            }
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRouteForAdmin>
+                <Dashboard />
+              </ProtectedRouteForAdmin>
+            }
+          />
         </Routes>
 
         <ToastContainer
@@ -47,3 +89,30 @@ function App() {
 }
 
 export default App;
+
+export const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    return children;
+  } else {
+    return <Navigate to={"/signin"} />;
+  }
+};
+
+export const ProtectedRouteForAuth = ({ children }) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return children;
+  } else {
+    return <Navigate to={"/"} />;
+  }
+};
+
+export const ProtectedRouteForAdmin = ({ children }) => {
+  const userType = localStorage.getItem("userType");
+  if (userType === "admin") {
+    return children;
+  } else {
+    return <Navigate to={"/signin"} />;
+  }
+};
