@@ -22,13 +22,13 @@ A website is for managing books.
 
 ## Features
 
--Catalog Management: Organize and maintain a database of library resources.
--User Management: Manage patron registrations, profiles, and borrowing privileges.
--Search and Discovery: Enable users to search and access resources efficiently.
--Online Public Access Catalog (OPAC): Provide a user-friendly interface for accessing library collections.
--Fines and Fees Management: Calculate and collect fines for overdue items.
--Admin and Staff Tools: Administer system settings and manage library operations.
--Integration and Customization: Integrate with other systems and customize workflows.
+- Catalog Management: Organize and maintain a database of library resources.
+- User Management: Manage patron registrations, profiles, and borrowing privileges.
+- Search and Discovery: Enable users to search and access resources efficiently.
+- Online Public Access Catalog (OPAC): Provide a user-friendly interface for accessing library collections.
+- Fines and Fees Management: Calculate and collect fines for overdue items.
+- Admin and Staff Tools: Administer system settings and manage library operations.
+- Integration and Customization: Integrate with other systems and customize workflows. 
 
 ## Getting Started
 
