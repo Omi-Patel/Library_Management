@@ -25,7 +25,7 @@ const BookGrid = () => {
     const [search, setSearch] = useState("")
 
     return (
-        <div className='max-w-7xl mx-auto'>
+        <div className='max-w-7xl mx-auto min-h-screen'>
             <Helmet>
                 <title>Library Management</title>
             </Helmet>

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.2",
+    "emailjs-com": "^3.2.0",
     "framer-motion": "^11.3.2",
     "helmet": "^7.1.0",
     "lucide-react": "^0.408.0",

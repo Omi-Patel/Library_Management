@@ -9,6 +9,7 @@ import AddBook from './components/Admin/Addbook';
 import Profile from './components/Profile';
 import Forgot_Password from './components/Forgot_Password';
 import New_Password from './components/New_Password';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path='/recover-password/verify-otp' element={<Forgot_Password />} />
         <Route path='/recover-password/new-password' element={<New_Password />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   )
