@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const BookGrid = () => {
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState([]);
   const userType = localStorage.getItem("userType");
+  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
 
@@ -31,13 +33,132 @@ const BookGrid = () => {
       );
 
       const deletedBook = await blob.json();
-    //   console.log(deletedBook);
+      //   console.log(deletedBook);
       toast.success(deletedBook.success);
       getAllBooks();
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Open Razorpay
+  const handleOpenRazorpay = async (data, bookId) => {
+    const key = await axios.get(import.meta.env.VITE_BASE_URL + `/api/getkey`);
+    console.log(key.data.key, "KEY");
+
+    const options = {
+      key: key.data.key, // Enter the Key ID generated from the Dashboard
+      amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Library Management",
+      description: "BookYourFurniture-Online",
+      image: "https://avatars.githubusercontent.com/u/122214228?v=4",
+      order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the previous step
+      // callback_url: import.meta.env.VITE_MAIN_URL + "/api/paymentvarification",
+      handler: function (response) {
+        // console.log(response, "Varification");
+        axios
+          .post(
+            import.meta.env.VITE_BASE_URL + `/api/paynow/paymentvarification`,
+            {
+              response: response,
+            }
+          )
+          .then((res) => {
+            console.log(res, "Order Varified");
+            console.log("ORDER SAVED TO DB");
+            makeOrder(bookId);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      prefill: {
+        name: "OM PATEL",
+        email: "ompate@example.com",
+        contact: "7777777777",
+      },
+      notes: {
+        address: "Book Your Meal.PVT-Ltd",
+      },
+      theme: {
+        color: "#3321cd",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
+  // Checkout Handler
+  const checkoutHandler = async (amount, bookId) => {
+    console.log(amount);
+    const _data = { amount: amount };
+    axios
+      .post(import.meta.env.VITE_BASE_URL + `/api/paynow/checkout`, _data)
+      .then((res) => {
+        console.log(res.data, "Order Data");
+        handleOpenRazorpay(res.data.data, bookId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // console.log(order, "ORDER");
+
+    //
+  };
+
+  // Send Order to DB
+  const makeOrder = async (bookId) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      // console.log(userId, "USER");
+      // console.log(productId, "PID");
+
+      const user = userId;
+      const book = bookId;
+
+      if (!book || !user) {
+        return toast.error("All Fields Are Required..!");
+      }
+
+      const response = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/order`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            user,
+            book,
+          }),
+        }
+      );
+
+      // order response
+      const orderRes = await response.json();
+      console.log(orderRes);
+
+      // condition
+      if (orderRes) {
+        toast.success(orderRes.success);
+        navigate("/paymentsuccess");
+      } else {
+        toast.error(orderRes.error);
+      }
+
+      // end
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     getAllBooks();
@@ -96,7 +217,10 @@ const BookGrid = () => {
                       </button>
                     </div>
                   ) : (
-                    <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
+                    <button
+                      onClick={() => checkoutHandler(book.price, book._id)}
+                      className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+                    >
                       Issue Book
                     </button>
                   )}
