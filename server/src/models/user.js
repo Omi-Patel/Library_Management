@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {

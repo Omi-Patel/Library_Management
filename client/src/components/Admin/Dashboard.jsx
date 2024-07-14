@@ -40,7 +40,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto">
       <span className="justify-between flex">
-      <h1 className="text-2xl font-bold mb-4">Library Management Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4"> Admin Dashboard</h1>
       <NavLink to="/admin/add-book"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-auto my-4   rounded focus:outline-none focus:shadow-outline"
                         >Add Book</button></NavLink>
       </span>

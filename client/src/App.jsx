@@ -9,6 +9,8 @@ import AddBook from './components/Admin/Addbook';
 import { Profiler } from 'react';
 import Profile from './components/Profile'
 import Dashboard from './components/Admin/Dashboard';
+// import ReportingDashboard from './components/librarian/ReportingDashboard';
+import Library from './components/librarian/library';
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path='/admin/add-book' element={<AddBook />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/admin/dashboard' element={<Dashboard />} />
+        <Route path="/library" element={<Library />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -2,9 +2,10 @@ const express = require("express");
 const connectToDB = require("./config/connect");
 const cors = require("cors");
 
-const users = require('./src/routes/userRoute')
+const users = require("./src/routes/userRoute");
+const books = require("./src/routes/bookRoute");
 
-connectToDB()
+connectToDB();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", users);
+app.use("/api", books);
 
 app.get("/api/getkey", (req, res) => {
   res.status(200).json({ key: process.env.RAZORPAY_API_KEY });
