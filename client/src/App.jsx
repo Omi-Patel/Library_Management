@@ -3,7 +3,7 @@ import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Navbar from "./components/Navbar";
 import Signin from "./components/Signin";
@@ -12,6 +12,8 @@ import AddBook from "./components/Admin/Addbook";
 import Profile from "./components/Profile";
 import Dashboard from "./components/Admin/Dashboard";
 import PaymentSuccess from "./components/PaymentSuccess";
+import Footer from "./components/Footer";
+import Update_book from "./components/Admin/Update-book";
 
 function App() {
   return (
@@ -23,9 +25,9 @@ function App() {
           <Route
             path="/register"
             element={
-              <ProtectedRoute>
+              <ProtectedRouteForAuth>
                 <SignUp />
-              </ProtectedRoute>
+              </ProtectedRouteForAuth>
             }
           />
           <Route
@@ -61,6 +63,16 @@ function App() {
               </ProtectedRouteForAdmin>
             }
           />
+
+          <Route
+            path="/admin/update-book"
+            element={
+              <ProtectedRouteForAdmin>
+                <Update_book />
+              </ProtectedRouteForAdmin>
+            }
+          />
+
           <Route
             path="/admin/dashboard"
             element={
@@ -70,7 +82,7 @@ function App() {
             }
           />
         </Routes>
-
+        <Footer />
         <ToastContainer
           position="top-right"
           autoClose={1500}
@@ -95,7 +107,7 @@ export const ProtectedRoute = ({ children }) => {
   if (token) {
     return children;
   } else {
-    return <Navigate to={"/signin"} />;
+    return <Navigate to={"/login"} />;
   }
 };
 
@@ -113,6 +125,6 @@ export const ProtectedRouteForAdmin = ({ children }) => {
   if (userType === "admin") {
     return children;
   } else {
-    return <Navigate to={"/signin"} />;
+    return <Navigate to={"/login"} />;
   }
 };

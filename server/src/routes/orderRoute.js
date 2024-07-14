@@ -13,9 +13,11 @@ router.post("/", fetchUser, async (req, res) => {
     const order = new Order({ user, book });
     await order.save();
 
+    // console.log(order);
+
     const olduser = await User.findById({ _id: req.user._id });
 
-    olduser.orders.push(order._id);
+    olduser.orders.push(order.book);
     await olduser.save();
 
     res.status(201).json({ success: "Order Created Successfull", order });

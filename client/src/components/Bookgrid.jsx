@@ -202,13 +202,15 @@ const BookGrid = () => {
                   <p className="text-gray-600">Author: {book.author}</p>
                   <p className="text-gray-600">Category: {book.genre}</p>
                   <p className="text-gray-600">Copies: {book.quantity}</p>
-                  <p className="text-gray-600">Copies: {book.price}</p>
+                  <p className="text-gray-600">Price: {book.price}</p>
 
                   {userType === "admin" ? (
                     <div className="flex justify-between items-center">
-                      <button className="mt-4 bg-blue-500 text-white py-2 px-3 rounded">
-                        Update Book
-                      </button>
+                      <NavLink to={`/admin/update-book/${book_id}`}>
+                        <button className="mt-4 bg-blue-500 text-white py-2 px-3 rounded">
+                          Update Book
+                        </button>
+                      </NavLink>
                       <button
                         onClick={() => deleteBookHandle(book._id)}
                         className="mt-4 bg-red-500 text-white py-2 px-3 rounded"

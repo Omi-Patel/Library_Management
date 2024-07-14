@@ -70,12 +70,8 @@ router.get("/profile/:userId", async (req, res) => {
   try {
     const user = await User.findById({ _id: id })
       .select("-password")
-      .populate({
-        path: "orders",
-        populate: {
-          path: "book",
-        },
-      });
+      .populate("orders");
+
     // console.log(user);
     res.json({ msg: "User Verified Successfully", user });
   } catch (err) {
@@ -83,7 +79,5 @@ router.get("/profile/:userId", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
-
 
 module.exports = router;
