@@ -63,26 +63,26 @@ router.post("/login", async (req, res) => {
 });
 
 // User Profile
-// router.get("/profile/:userId", async (req, res) => {
-//   const id = req.params.userId;
+router.get("/profile/:userId", async (req, res) => {
+  const id = req.params.userId;
 
-//   // console.log(id);
-//   try {
-//     const user = await User.findById({ _id: id })
-//       .select("-password")
-//       .populate({
-//         path: "orders",
-//         populate: {
-//           path: "book",
-//         },
-//       });
-//     // console.log(user);
-//     res.json({ msg: "User Verified Successfully", user });
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server error");
-//   }
-// });
+  // console.log(id);
+  try {
+    const user = await User.findById({ _id: id })
+      .select("-password")
+      .populate({
+        path: "orders",
+        populate: {
+          path: "book",
+        },
+      });
+    // console.log(user);
+    res.json({ msg: "User Verified Successfully", user });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
 
 
 

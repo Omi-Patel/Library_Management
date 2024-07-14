@@ -1,7 +1,36 @@
 import { Avatar } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 export default function Profile() {
+  const { userId } = useParams();
+  const [profile, setProfile] = useState({});
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  const fetchUser = async () => {
+    try {
+      const blob = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/user/profile/${userId}`
+      );
+
+      const response = await blob.json();
+
+      setProfile(response.user);
+      setOrders(response.user.orders);
+      setLoading(false);
+      // console.log(response.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div className="min-h-screen max-w-7xl mx-auto ">
       {/* Profile Info */}
@@ -15,7 +44,7 @@ export default function Profile() {
             className=""
           />
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tighter">
-            Welcome, {"profile.name"} 👋
+            Welcome, {profile.name} 👋
           </h1>
         </div>
         <div className="sm:p-4 ">
@@ -31,7 +60,7 @@ export default function Profile() {
                 <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
               </svg>
             </span>
-            <span>{"profile.email"}</span>
+            <span>{profile.email}</span>
           </h2>
           <h3 className="flex gap-2 items-center  justify-center sm:justify-start">
             <span>
@@ -49,7 +78,7 @@ export default function Profile() {
               </svg>
             </span>
 
-            <span>+91 {"profile.mobile"}</span>
+            <span>+91 {profile.mobile}</span>
           </h3>
         </div>
       </div>
