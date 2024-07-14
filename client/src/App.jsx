@@ -8,6 +8,7 @@ import BookGrid from './components/Bookgrid';
 import AddBook from './components/Admin/Addbook';
 import { Profiler } from 'react';
 import Profile from './components/Profile'
+import Dashboard from './components/Admin/Dashboard';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/login' element={<Signin />} />
         <Route path='/admin/add-book' element={<AddBook />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/admin/dashboard' element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </>
