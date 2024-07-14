@@ -6,7 +6,8 @@ import Navbar from './components/Navbar'
 import Signin from './components/Signin'
 import BookGrid from './components/Bookgrid';
 import AddBook from './components/Admin/Addbook';
-import Profile from './components/Profile';
+import { Profiler } from 'react';
+import Profile from './components/Profile'
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path='/register' element={<SignUp />} />
         <Route path='/login' element={<Signin />} />
         <Route path='/admin/add-book' element={<AddBook />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path='/profile' element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </>
