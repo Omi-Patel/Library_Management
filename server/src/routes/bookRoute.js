@@ -49,5 +49,32 @@ router.post("/books", async (req, res) => {
   }
 });
 
+// GET all books
+router.get("/books", async (req, res) => {
+  try {
+    const books = await Book.find();
+    res.status(200).json({ success: "Books Retrieved Successfully!", books });
+  } catch (error) {
+    res.status(500).json({ error: "Server Error..!" });
+  }
+});
+
+// GET a single book by ID
+router.get("/books/:id", async (req, res) => {
+  try {
+    const bookId = req.params.id;
+    const book = await Book.findById(bookId);
+
+    if (!book) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    res.status(200).json({ success: "Book Retrieved Successfully!", book });
+  } catch (error) {
+    res.status(500).json({ error: "Server Error..!" });
+  }
+});
+
+
 
 module.exports = router;
