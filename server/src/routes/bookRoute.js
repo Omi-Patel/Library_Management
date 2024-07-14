@@ -10,6 +10,7 @@ router.post("/books", async (req, res) => {
       title,
       author,
       genre,
+      image,
       publicationYear,
       price,
       quantity,
@@ -21,6 +22,7 @@ router.post("/books", async (req, res) => {
       !title ||
       !author ||
       !genre ||
+      !image ||
       !publicationYear ||
       !price ||
       !quantity ||
@@ -29,10 +31,11 @@ router.post("/books", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const newBook = new Book({
+    const newBook =  new Book({
       title,
       author,
       genre,
+      image,
       publicationYear,
       price,
       quantity,
@@ -45,6 +48,7 @@ router.post("/books", async (req, res) => {
 
     // end
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Server Error..!" });
   }
 });

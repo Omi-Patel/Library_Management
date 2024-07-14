@@ -1,7 +1,76 @@
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddBook = () => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [genre, setGenre] = useState("");
+  const [image, setImage] = useState("");
+  const [publicationYear, setPublicationYear] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [publisher, setPublisher] = useState("");
+
+  const navigate = useNavigate();
+
+  const addBookHandler = async () => {
+    if (
+      !title ||
+      !author ||
+      !genre ||
+      !image ||
+      !publicationYear ||
+      !price ||
+      !quantity ||
+      !publisher
+    ) {
+      return toast.error("Add All Data");
+    }
+
+    const blob = await fetch(import.meta.env.VITE_BASE_URL + `/api/books`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        author,
+        genre,
+        image,
+        publicationYear,
+        price,
+        quantity,
+        publisher,
+      }),
+    });
+
+    //receiving response
+    const createdBook = await blob.json();
+    console.log(createdBook);
+
+    // condition
+    if (createdBook.error) {
+      toast.error(createdBook.error);
+    } else {
+      toast.success(createdBook.success);
+      navigate("/");
+      setTitle("");
+      setAuthor("");
+      setGenre("");
+      setImage("");
+      setPublicationYear("");
+      setPrice("");
+      setQuantity("");
+      setPublisher("");
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="container mx-auto p-8">
       <Helmet>
@@ -18,6 +87,8 @@ const AddBook = () => {
             id="title"
             type="text"
             placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
@@ -33,6 +104,8 @@ const AddBook = () => {
             id="author"
             type="text"
             placeholder="Author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
             required
           />
         </div>
@@ -45,6 +118,8 @@ const AddBook = () => {
             id="genre"
             type="text"
             placeholder="Genre"
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
             required
           />
         </div>
@@ -55,7 +130,10 @@ const AddBook = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="image"
-            type="file"
+            type="text"
+            placeholder="Image URL"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
             required
           />
           <p className="text-gray-600 text-xs mt-2">
@@ -73,21 +151,12 @@ const AddBook = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="publishedDate"
             type="date"
+            value={publicationYear}
+            onChange={(e) => setPublicationYear(e.target.value)}
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="isbn">
-            ISBN <span className="text-red-500">*</span>
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="isbn"
-            type="text"
-            placeholder="ISBN"
-            required
-          />
-        </div>
+
         <div className="mb-6">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="prize">
             Prize <span className="text-red-500">*</span>
@@ -96,10 +165,28 @@ const AddBook = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="prize"
             type="text"
-            placeholder="Prize"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             required
           />
         </div>
+
+        <div className="mb-6">
+          <label className="block text-gray-700 font-bold mb-2" htmlFor="prize">
+            QTY. <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="qtu"
+            type="text"
+            placeholder="QTY"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            required
+          />
+        </div>
+
         <div className="mb-6">
           <label
             className="block text-gray-700 font-bold mb-2"
@@ -112,11 +199,14 @@ const AddBook = () => {
             id="publisher"
             type="text"
             placeholder="Publisher"
+            value={publisher}
+            onChange={(e) => setPublisher(e.target.value)}
             required
           />
         </div>
         <div className="flex items-center justify-between">
           <button
+            onClick={addBookHandler}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >

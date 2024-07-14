@@ -13,8 +13,12 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
   publicationYear: {
-    type: Number,
+    type: String,
     required: true,
   },
   price: {
