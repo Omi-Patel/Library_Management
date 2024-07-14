@@ -53,6 +53,11 @@ router.post("/books", async (req, res) => {
 router.get("/books", async (req, res) => {
   try {
     const books = await Book.find();
+
+    if (!books) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
     res.status(200).json({ success: "Books Retrieved Successfully!", books });
   } catch (error) {
     res.status(500).json({ error: "Server Error..!" });
@@ -126,6 +131,17 @@ router.put("/books/:id", async (req, res) => {
   }
 });
 
-
+// DELETE a book by ID
+router.delete("/books/:id", async (req, res) => {
+  // Your code to delete a book by ID from the database
+  try {
+    const { id } = req.params;
+    const deletedBook = await Book.findByIdAndDelete({ _id: id });
+    res.json({ success: "Book Deleted Successfully", deletedBook });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server Error..!" });
+  }
+});
 
 module.exports = router;
